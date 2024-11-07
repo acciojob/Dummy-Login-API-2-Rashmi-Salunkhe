@@ -1,82 +1,82 @@
-import React from "react";
-import LoginAPI from "./LoginAPI";
-import App from './Login'
+import React, { useState } from 'react';
 
-const App = () => {
-    return (
-        // <App />
-        <LoginAPI/>
-    )
+function App() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userError, setUserError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  // Predefined user data
+  const predefinedUser = [
+    {
+      email: 'abc@gmail.com',
+      password: '12',
+    },
+    {
+      email: 'def@gmail.com',
+      password: '1234',
+    },
+    {
+      email: 'ghi@gmail.com',
+      password: '123456',
+    },
+  ];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUserError('');
+    setPasswordError('');
+  
+    setTimeout(() => {
+      const user = predefinedUser.find((user) => user.email === email);
+  
+      if (!user) {
+        setUserError('User not found');
+      } else if (user.password !== password) {
+        setPasswordError('Password Incorrect');
+      } else {
+        alert('Login successful');
+      }
+    }, 3000);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (userError) setUserError(''); // Clear error on input change
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    if (passwordError) setPasswordError(''); // Clear error on input change
+  };
+
+  return (
+    <div className="App">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email:</label>
+          <input
+            id="input-email"
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <div id="user-error" style={{ color: 'red' }}>{userError}</div>
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            id="input-password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <div id="password-error" style={{ color: 'red' }}>{passwordError}</div>
+        </div>
+        <button id="submit-form-btn" type="submit">Login</button>
+      </form>
+    </div>
+  );
 }
 
 export default App;
-
-// import React, { useState } from "react"
-// import '../styles/App.css';
- 
-// const Data=[
-//     {
-//         id: 1,
-//         name: "ABC",
-//         email: "abc@gmail.com",
-//         password: "12"
-//     },
-//     {
-//         id: 2,
-//         name: "DEF",
-//         email: "def@gmail.com",
-//         password: "1234"
-//     },
-//     {
-//         id: 3,
-//         name: "GHI",
-//         email: "ghi@gmail.com",
-//         password: "123456"
-//     }
-// ]
- 
-// const App=()=>{
-//     const [email, setEmail]=useState("");
-//     const[password, setPassword]=useState("");
-//     const [userError, setUserError]=useState(false);
-//     const [passwordError, setPasswordError]=useState(false);
-//     const [login, setLogin]=useState(false);
- 
-//    function loginFun(e){
-//     e.preventDefault();
-//      setTimeout(()=>{
-//        for(let i=0;i<Data.length;i++){
-//             if(email===Data[i].email){
-//                 if(password!==Data[i].password){
-//                     setPasswordError(true);
-//                     setUserError(false)
-//                     setLogin(false);
-//                     return;
-//                 }else{
-//                     setPasswordError(false);
-//                     setUserError(false)
-//                     setLogin(true);
-//                     return;
-//                 }
-//             }else{
-//                 setUserError(true);
-//                 setPasswordError(false);
-//                 setLogin(false);
-//                 // console.log(Data[i].email,  Data[i].password);
-//             }
-//         }
-//      },3000)
-//    }
- 
-//     return (<div>
-//            <form onSubmit={(e)=>loginFun(e)}>
-//             <input type="email" placeholder="Email" id="input-email" value={email} onChange={e=>setEmail(e.target.value)}/>
-//             <input type="password" placeholder="Password" id="input-password" value={password} onChange={e=>setPassword(e.target.value)}/>
-//             <button type="subbmit" id="submit-form-btn">submit</button>
-//            </form>
-//            <p id="user-error">{userError ? "User not found" : ""}</p>
-//            <p id="password-error">{passwordError ? "Password Incorrect": ""}</p>
-//            <p>{login ? "Login Successfull" :""}</p>
-//     </div>)
-// }
-// export default App;
